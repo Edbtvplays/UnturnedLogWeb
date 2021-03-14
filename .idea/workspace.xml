@@ -1,34 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="01cb7502-63db-4fae-847d-b4e754c71f5a" name="Default Changelist" comment="" />
+    <list default="true" id="01cb7502-63db-4fae-847d-b4e754c71f5a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/action.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/class/Player.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/dataTables.bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/dataTables.bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/events.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/players.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/players.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/class/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/class/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/include/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/register.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/verify.php" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ComposerSettings">
-    <execution>
-      <executable />
-    </execution>
+    <execution />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="PhpDebugGeneral" listening_started="true" />
   <component name="ProjectId" id="1mQOfIP5af3Pk4qFguJjS5PQad3" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Personal-Blog-2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/js" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="discord-project" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\laragon\www\Unturned-Log\js" />
+      <recent name="C:\laragon\www\Unturned-Log" />
+      <recent name="C:\laragon\www\Unturned-Log\css" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\laragon\www\UnturnedLog\includes\php" />
     </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -42,33 +77,29 @@
       <workItem from="1609422451110" duration="7810000" />
       <workItem from="1610549282669" duration="24000" />
       <workItem from="1611499912395" duration="4210000" />
+      <workItem from="1613929234039" duration="5277000" />
+      <workItem from="1614858487292" duration="812000" />
+      <workItem from="1615162642328" duration="5717000" />
+      <workItem from="1615291613086" duration="3631000" />
+      <workItem from="1615367000415" duration="18223000" />
+      <workItem from="1615467161660" duration="1805000" />
+      <workItem from="1615590771288" duration="5748000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1610549304132">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610549304132" />
-    <state x="-1126" y="439" key="NewPhpFileDialog" timestamp="1609424147209">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1126" y="439" key="NewPhpFileDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1609424147209" />
-    <state x="461" y="162" key="SettingsEditor" timestamp="1611513428594">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1459" y="162" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1609428371888" />
-    <state x="461" y="162" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1611513428594" />
-    <state x="-1284" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1610549285876">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1284" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610549285876" />
-    <state x="-1297" y="225" key="search.everywhere.popup" timestamp="1609423215050">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1297" y="225" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1609423215050" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

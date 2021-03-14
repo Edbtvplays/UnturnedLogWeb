@@ -8,7 +8,7 @@ include('include/header.php');
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
 <link rel="stylesheet" href="css/dataTables.bootstrap.min.css" />
-<script src="js/players.js"></script>
+<script src="js/events.js"></script>
 <?php include('include/container.php');?>
 <div class="container contact">
 	<?php include('menu.php');?>
@@ -16,16 +16,17 @@ include('include/header.php');
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-10">
-                    <h3 class="panel-title">Users</h3>
+                    <h3 class="panel-title">Events</h3>
                 </div>
             </div>
         </div>
-        <table id="userList" class="table table-bordered table-striped">
+        <table id="eventList" class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>SteamName</th>
-                <th>CharacterName</th>
+                <th>Type</th>
+                <th>Data</th>
+                <th>Server</th>
+                <th>Time</th>
             </tr>
             </thead>
         </table>
