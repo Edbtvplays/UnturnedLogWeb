@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="01cb7502-63db-4fae-847d-b4e754c71f5a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/action.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/class/Player.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/css/dataTables.bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/dataTables.bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/events.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/players.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/players.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/class/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/class/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/include/header.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/register.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/verify.php" beforeDir="false" />
-    </list>
+    <list default="true" id="01cb7502-63db-4fae-847d-b4e754c71f5a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,6 +23,7 @@
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="ProjectId" id="1mQOfIP5af3Pk4qFguJjS5PQad3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -48,22 +33,27 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="discord-project" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\laragon\www\UnturnedLog\includes\php" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\laragon\www\Unturned-Log\js" />
       <recent name="C:\laragon\www\Unturned-Log" />
       <recent name="C:\laragon\www\Unturned-Log\css" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\laragon\www\UnturnedLog\includes\php" />
-    </key>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="RunManager">
+    <configuration name="Unnamed" type="ChromiumRemoteDebugType" factoryName="Chromium Remote" nameIsGenerated="true" port="9229">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -84,11 +74,12 @@
       <workItem from="1615367000415" duration="18223000" />
       <workItem from="1615467161660" duration="1805000" />
       <workItem from="1615590771288" duration="5748000" />
+      <workItem from="1615812772488" duration="10885000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -101,5 +92,63 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1615819278685">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1615819278685" />
+    <state width="1493" height="253" key="GridCell.Tab.0.bottom" timestamp="1615819318521">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1615819318521" />
+    <state width="1493" height="253" key="GridCell.Tab.0.center" timestamp="1615819318521">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1615819318521" />
+    <state width="1493" height="253" key="GridCell.Tab.0.left" timestamp="1615819318521">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1615819318521" />
+    <state width="1493" height="253" key="GridCell.Tab.0.right" timestamp="1615819318521">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1615819318521" />
+    <state width="1493" height="253" key="GridCell.Tab.1.bottom" timestamp="1615819318521">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1615819318521" />
+    <state width="1493" height="253" key="GridCell.Tab.1.center" timestamp="1615819318521">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1615819318521" />
+    <state width="1493" height="253" key="GridCell.Tab.1.left" timestamp="1615819318521">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1615819318521" />
+    <state width="1493" height="253" key="GridCell.Tab.1.right" timestamp="1615819318521">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1615819318521" />
+    <state width="1493" height="253" key="GridCell.Tab.2.bottom" timestamp="1615819318522">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1615819318522" />
+    <state width="1493" height="253" key="GridCell.Tab.2.center" timestamp="1615819318522">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1615819318522" />
+    <state width="1493" height="253" key="GridCell.Tab.2.left" timestamp="1615819318521">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1615819318521" />
+    <state width="1493" height="253" key="GridCell.Tab.2.right" timestamp="1615819318522">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="253" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1615819318522" />
+    <state x="604" y="332" key="NewPhpFileDialog" timestamp="1615826517772">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="604" y="332" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1615826517772" />
   </component>
 </project>

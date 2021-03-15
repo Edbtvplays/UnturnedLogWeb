@@ -12,11 +12,7 @@ $(document).ready(function(){
 	// If a Parameter does exsist.
 	else {
 		// Get Statistical Data
-
-
-
 		console.log("Executed");
-
 		// Data Table Gets information for all Events.
 		var EventsData = $('#eventList').DataTable({
 			"lengthChange": false,

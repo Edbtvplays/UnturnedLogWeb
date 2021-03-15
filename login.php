@@ -31,7 +31,6 @@ include('include/header.php');
 						<label>
 						  <input  type="checkbox" id="remember" name="remember" <?php if(isset($_COOKIE["loginId"])) { ?> checked <?php } ?>> Remember me
 						</label>
-						<label><a href="forget_password.php">Forget your password</a></label>	
 					  </div>
 					</div>
 					<div style="margin-top:10px" class="form-group">                               
@@ -39,16 +38,6 @@ include('include/header.php');
 						  <input type="submit" name="login" value="Login" class="btn btn-info">						  
 						</div>						
 					</div>
-					 <div class="form-group">
-						<div class="col-md-12 control">
-							<div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
-								Don't have an account! 
-							<a href="register.php">
-								Register 
-							</a>Here. 
-							</div>
-						</div>
-					</div>    	
 				</form>   
 			</div>                     
 		</div>  

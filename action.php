@@ -17,34 +17,16 @@ if(!empty($_POST['action']) && $_POST['action'] == 'listplayer') {
             $dbConnect = $conn;
         }
 
-        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Players WHERE ";
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Players;";
 
-
-        echo($_POST["search"]["value"]);
-
-        if(!empty($_POST["search"]["value"])){
-            $sqlQuery .= "(Id LIKE "%'.$_POST["search"]["value"].'%" ";
-            $sqlQuery .= ' OR SteamName LIKE "%'.$_POST["search"]["value"].'%" ';
-            $sqlQuery .= ' OR CharacterName LIKE "%'.$_POST["search"]["value"].'%" ';
-        }
-
-        if(!empty($_POST["order"])){
-           $sqlQuery .= "ORDER BY ".$_POST['order']['0']['column'].' '.$_POST['order']['0']['dir']." ";
-        } else {
-            $sqlQuery .= "ORDER BY ID DESC";
-       }
 
         $result = mysqli_query($dbConnect, $sqlQuery);
 
-        $sqlQuery1 = "SELECT * FROM Edbtvplays_UnturnedLog_Players";
-
-        $result1 = mysqli_query($dbConnect, $sqlQuery1);
-        $numRows = mysqli_num_rows($result1);
+        $numRows = mysqli_num_rows($result);
 
         $playerData = array();
 
-        echo($result);
-        while($player = mysqli_fetch_assoc($result1) ) {
+        while($player = mysqli_fetch_assoc($result) ) {
             $playerRows = array();
             $playerRows[] = $player['Id'];
             $playerRows[] = $player['CharacterName'];
@@ -58,7 +40,6 @@ if(!empty($_POST['action']) && $_POST['action'] == 'listplayer') {
             "recordsFiltered" 	=> 	$numRows,
             "data"    			=> 	$playerData
         );
-
 
         echo json_encode($output);
 }
@@ -78,16 +59,9 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'listevents') {
         $dbConnect = $conn;
     }
 
-    //$id=76561199006254156;
-
+    $id = 76561198236325606;
     $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_POST['id']." ";
 
-
-//    if(!empty($_POST["order"])){
-//        $sqlQuery .= "ORDER BY ".$_POST['order']['0']['column'].' '.$_POST['order']['0']['dir']." ";
-//    } else {
-//        $sqlQuery .= "ORDER BY ID DESC";
-//    }
 
     $result = mysqli_query($dbConnect, $sqlQuery);
 
@@ -104,6 +78,8 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'listevents') {
         $EventRows[] = $Event['EventTime'];
         $EventData[] = $EventRows;
     }
+    // Inner join the server to get the Server name to display on the Event table.
+
 
     $output = array(
         "draw"				=>	intval($_POST["draw"]),
@@ -114,4 +90,5 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'listevents') {
 
     echo json_encode($output);
 }
+
 ?>

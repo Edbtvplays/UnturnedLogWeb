@@ -7,8 +7,7 @@ include('include/header.php');
 ?>
 <title>UnturnedLog - Account</title>
 <?php include('include/container.php');?>
-<div class="container contact">	
-	<h2>Example: User Management System with PHP & MySQL</h2>	
+<div class="container contact">
 	<?php include('menu.php');?>
 	<div class="table-responsive">		
 		<div><span style="font-size:20px;">User Account Details:</span><div class="pull-right"><a href="edit_account.php">Edit Account</a></div>

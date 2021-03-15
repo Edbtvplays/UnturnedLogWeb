@@ -16,7 +16,7 @@ include('include/header.php');
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-10">
-                    <h3 class="panel-title">Users</h3>
+                    <h3 class="panel-title">Players</h3>
                 </div>
             </div>
         </div>
