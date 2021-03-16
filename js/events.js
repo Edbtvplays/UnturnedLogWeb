@@ -12,31 +12,19 @@ $(document).ready(function(){
 	// If a Parameter does exsist.
 	else {
 		// Get Statistical Data
-		console.log("Executed");
-		// Data Table Gets information for all Events.
-		var EventsData = $('#eventList').DataTable({
-			"lengthChange": false,
-			"processing": true,
-			"serverSide": true,
-			"order": [],
-			"ajax": {
-				url: "action.php",
-				type: "POST",
-				data: {action: 'listevents', id: searchParams.get('player')},
-				dataType: "json"
-			},
-			"language": {
-				"lengthMenu": "_MENU_",
-				"search": ""
-			},
-			"columnDefs": [
-				{
-					"targets": [0, 1, 2, 3],
-					"orderable": false,
+		$(document).ready(function () {
+			$('#eventList').dataTable({
+				"language": {
+					"lengthMenu": "_MENU_",
+					"search": ""
 				},
-			],
-			"pageLength": 25
+				"bInfo": false,
+				"columnDefs": [{
+					"orderable": false,
+					"targets": 0,
+				}]
+			});
 		});
-		console.log(EventsData)
+
 	}
 });

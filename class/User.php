@@ -71,7 +71,7 @@ class Players extends DbConfig
 
     public function getPlayerEvents() {
 
-        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_POST['id']." ";
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET['player']." ";
 
 
         $result = mysqli_query($this->dbConnect, $sqlQuery);
@@ -91,19 +91,106 @@ class Players extends DbConfig
         // Inner join the server to get the Server name to display on the Event table.
 
 
-        $output = array(
-            "draw"				=>	intval($_POST["draw"]),
-            "recordsTotal"  	=>  $numRows,
-            "recordsFiltered" 	=> 	$numRows,
-            "data"    			=> 	$EventData
-        );
-
-        echo json_encode($output);
+        return(json_encode($EventData));
     }
+
+    public function GetStatistic($statistic) {
+
+        $sqlQuery = "";
+        if ($statistic == "CHAT_MESSAGES") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Chat Message'";
+        } else if ($statistic == "KILLED_ZOMBIES") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Killed Zombie'";
+        } else if ($statistic == "KILLED_MEGA_ZOMBIES") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Killed Mega Zombie'";
+        } else if ($statistic == "FOUND_PLANTS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Found Plants'";
+        } else if ($statistic == "FOUND_RESOURCES") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = " . $_GET["player"] . " AND EventType = 'Found Resource'";
+        } else if ($statistic == "FARMED_RESOURCES") {
+                $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Resource harvested'";
+        } else if ($statistic == "PLAYER_HEADSHOTS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Player Headshot'";
+        } else if ($statistic == "FISH_CAUGHT") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Fish Caught'";
+        } else if ($statistic == "BUILDABLE_PLACED") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Placed Buildable'";
+        } else if ($statistic == "PUNISHMENTS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Player Banned'";
+        } else if ($statistic == "PLAYER_KILLS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Player Kill'";
+        } else if ($statistic == "PLAYER_DEATHS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Death'";
+        } else if ($statistic == "PLAYER_TELEPORTS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Teleported'";
+        } else {
+            return "Error: Not a valid thing to display";
+        }
+
+        $result = mysqli_query($this->dbConnect, $sqlQuery);
+
+        if (!$result) {
+            return 0;
+        } else {
+            $amount =  mysqli_num_rows($result);
+            return($amount);
+        }
+
+    }
+
+    public function GetInformation($information) {
+
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Players WHERE Id = ".$_GET["player"].";";
+        $result = mysqli_query($this->dbConnect, $sqlQuery);
+        $PlayerData = array();
+
+        if ($information == "PLAYER_IP") {
+            while($Player = mysqli_fetch_assoc($result) ) {
+                $PlayerRows = array();
+                $PlayerRows[] = $Player['Ip'];
+                $PlayerData = $PlayerRows;
+            };
+            $ip = long2ip($PlayerData[0]);
+            return($ip);
+        } else if ($information == "TOTAL_PLAYTIME") {
+            while($Player = mysqli_fetch_assoc($result) ) {
+                $PlayerRows = array();
+                $PlayerRows[] = $Player['TotalPlaytime'];
+                $PlayerData = $PlayerRows;
+            };
+            $playtime = gmdate("H:i:s", $PlayerData[0]);
+            return($playtime);
+
+        } else if ($information == "LAST_PLAYED") {
+            while($Player = mysqli_fetch_assoc($result) ) {
+                $PlayerRows = array();
+                $PlayerRows[] = $Player['LastLoginGlobal'];
+                $PlayerData = $PlayerRows;
+            };
+            return($PlayerData[0]);
+        } else if ($information == "CHARACTER_NAME") {
+            while($Player = mysqli_fetch_assoc($result) ) {
+                $PlayerRows = array();
+                $PlayerRows[] = $Player['CharacterName'];
+                $PlayerData = $PlayerRows;
+            };
+            return($PlayerData[0]);
+        } else if ($information == "STEAM_NAME") {
+            while($Player = mysqli_fetch_assoc($result) ) {
+                $PlayerRows = array();
+                $PlayerRows[] = $Player['SteamName'];
+                $PlayerData = $PlayerRows;
+            };
+            return($PlayerData[0]);
+        }
+
+
+    }
+
 
     public function ZombieKillsGraph() {
 
-        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Killed Zombie' AND EventTime >= now() - interval 7 day;";
+        $sqlQuery = "SELECT EventTime FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Killed Zombie' AND EventTime >= now() - interval 7 day;";
 
 
         $result = mysqli_query($this->dbConnect, $sqlQuery);
@@ -118,20 +205,19 @@ class Players extends DbConfig
         $seven = 0;
 
         while($rowData = mysqli_fetch_array($result)){
-            if ($rowData["EventTime"] = strtotime('-1 days')){
+            if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d",strtotime('-1 days'))){
                 $one = $one + 1;
-            } // Yesterday
-            else if ($rowData["EventTime"] = strtotime('-2 days')) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-2 days'))) {
                 $two = $two + 1;
-            } else if ($rowData["EventTime"] = strtotime('-3 days')) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-3 days'))) {
                 $three = $three + 1;
-            } else if ($rowData["EventTime"] = strtotime('-4 days')) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-4 days'))) {
                 $four = $four + 1;
-            } else if ($rowData["EventTime"] = strtotime('-4 days')) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-5 days'))) {
                 $five = $five + 1;
-            } else if ($rowData["EventTime"] = strtotime('-4 days')) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) === date("Y-m-d", strtotime('-6 days'))) {
                 $six = $six + 1;
-            } else if ($rowData["EventTime"] = strtotime('-4 days')) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) === date("Y-m-d", strtotime('-7 days'))) {
                 $seven = $seven + 1;
             }
         }
