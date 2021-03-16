@@ -2,6 +2,7 @@
 include('class/User.php');
 $user = new User();
 $user->loginStatus();
+$player = new Players();
 include('include/header.php');
 ?>
 <title>UnturnedLog - Home</title>
@@ -16,52 +17,18 @@ include('include/header.php');
 // Get Data set, to parse into the graph using php function. Usually along the bottom would be the time and up the Y would be the amount.
 // Im aware that this code is messy it just needs to be cleaned up and made OOP by putting it in a seperate class which will inherit the DB connection.
 
+$data = $player->ZombieKillsGraph();
 
-$dbConnect = false;
-
-$hostName = "bpg-06-fa-de.modern-hosting.com:3306";
-$userName = "u423_hz7T62dhec";
-$password = "SC8^j81s79^W8bH+LE3qlLTh";
-$dbName = "s423_Main";
-$conn = new mysqli($hostName, $userName, $password, $dbName);
-
-if($conn->connect_error){
-    die("Error failed to connect to MySQL: " . $conn->connect_error);
-} else{
-    $dbConnect = $conn;
-}
-
-// Get the User ID for Chat Messages for the last 7 days.
-// 76561198236325606
-$sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events;";
-    //WHERE PlayerId = "."76561198236325606".
-    //" AND EventTime >= now() - interval 7 day AND EventType = "."Killed Zombie".";";
-
-// Sort them into how many per day
-try {
-    $result = mysqli_query($dbConnect, $sqlQuery);
-} catch(Exception $e) {
-    echo($e);
-}
-
-if (!$result) {
-    echo("Query Failed");
-} else {
-    $numRows = mysqli_num_rows($result);
-}
-
-echo(json_encode($result));
-// Sort them into how many per day Display on Graph.
-
+echo($data);
 // Need to get the date for the 7 days previous.
 $dataPoints = array(
-    array("y" => 6, "label" => date('Y-m-d', strtotime('-1 days'))),
-    array("y" => 4, "label" => date('Y-m-d', strtotime('-2 days'))),
-    array("y" => 5, "label" => date('Y-m-d', strtotime('-3 days'))),
-    array("y" => 7, "label" => date('Y-m-d', strtotime('-4 days'))),
-    array("y" => 4, "label" => date('Y-m-d', strtotime('-5 days'))),
-    array("y" => 6, "label" => date('Y-m-d', strtotime('-6 days'))),
-    array("y" => 7, "label" => date('Y-m-d', strtotime('-7 days'))),
+    array("y" => $data["one"], "label" => date('Y-m-d', strtotime('-1 days'))),
+    array("y" => $data["two"], "label" => date('Y-m-d', strtotime('-2 days'))),
+    array("y" => $data["three"], "label" => date('Y-m-d', strtotime('-3 days'))),
+    array("y" => $data["four"], "label" => date('Y-m-d', strtotime('-4 days'))),
+    array("y" => $data["five"], "label" => date('Y-m-d', strtotime('-5 days'))),
+    array("y" => $data["six"], "label" => date('Y-m-d', strtotime('-6 days'))),
+    array("y" => $data["seven"], "label" => date('Y-m-d', strtotime('-7 days'))),
 );
 ?>
 

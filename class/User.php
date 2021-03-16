@@ -22,66 +22,132 @@ class Players extends DbConfig
     protected $userName;
     protected $password;
     protected $dbName;
-    private $playerTable = 'Edbtvplays_UnturnedLog_Players';
     private $dbConnect = false;
 
-    public function __construct()
-    {
-        if (!$this->dbConnect) {
+    public function __construct(){
+        if(!$this->dbConnect){
             $database = new dbConfig();
-            $this->hostName = $database->serverName;
-            $this->userName = $database->userName;
-            $this->password = $database->password;
-            $this->dbName = $database->dbName;
+            $this -> hostName = $database -> serverName;
+            $this -> userName = $database -> userName;
+            $this -> password = $database ->password;
+            $this -> dbName = $database -> dbName;
             $conn = new mysqli($this->hostName, $this->userName, $this->password, $this->dbName);
-            if ($conn->connect_error) {
+            if($conn->connect_error){
                 die("Error failed to connect to MySQL: " . $conn->connect_error);
-            } else {
+            } else{
                 $this->dbConnect = $conn;
             }
         }
         parent::__construct();
     }
 
-    public function getPlayerList()
-    {
-
-        $sqlQuery = "SELECT * FROM " . $this->playerTable . " WHERE ";
-
-        if (!empty($_POST["search"]["value"])) {
-            $sqlQuery .= '(Id LIKE "%' . $_POST["search"]["value"] . '%" ';
-            $sqlQuery .= ' OR SteamName LIKE "%' . $_POST["search"]["value"] . '%" ';
-            $sqlQuery .= ' OR CharacterName LIKE "%' . $_POST["search"]["value"] . '%" ';
-        }
-
-        if (!empty($_POST["order"])) {
-            $sqlQuery .= 'ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
-        } else {
-            $sqlQuery .= 'ORDER BY ID DESC ';
-        }
-        if ($_POST["length"] != -1) {
-            $sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
-        }
+    public function getPlayerList() {
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Players;";
 
         $result = mysqli_query($this->dbConnect, $sqlQuery);
 
-        $sqlQuery1 = "SELECT * FROM " . $this->playerTable;
-        $result1 = mysqli_query($this->dbConnect, $sqlQuery1);
-        $numRows = mysqli_num_rows($result1);
+        $numRows = mysqli_num_rows($result);
 
         $playerData = array();
-        while ($player = mysqli_fetch_assoc($result)) {
-            $playerRows = array();
 
-            $playerRows[] = $player['ID'];
+        while($player = mysqli_fetch_assoc($result) ) {
+            $playerRows = array();
+            $playerRows[] = $player['Id'];
             $playerRows[] = $player['CharacterName'];
             $playerRows[] = $player['SteamName'];
             $playerData[] = $playerRows;
         }
 
+        $output = array(
+            "draw"				=>	intval($_POST["draw"]),
+            "recordsTotal"  	=>  $numRows,
+            "recordsFiltered" 	=> 	$numRows,
+            "data"    			=> 	$playerData
+        );
 
-        $output = "hello";
-        console_log(json_encode($output));
+        echo json_encode($output);
+    }
+
+
+    public function getPlayerEvents() {
+
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_POST['id']." ";
+
+
+        $result = mysqli_query($this->dbConnect, $sqlQuery);
+
+        $numRows = mysqli_num_rows($result);
+
+        $EventData = array();
+
+        while($Event = mysqli_fetch_assoc($result) ) {
+            $EventRows = array();
+            $EventRows[] = $Event['EventType'];
+            $EventRows[] = $Event['EventData'];
+            $EventRows[] = $Event['ServerId'];
+            $EventRows[] = $Event['EventTime'];
+            $EventData[] = $EventRows;
+        }
+        // Inner join the server to get the Server name to display on the Event table.
+
+
+        $output = array(
+            "draw"				=>	intval($_POST["draw"]),
+            "recordsTotal"  	=>  $numRows,
+            "recordsFiltered" 	=> 	$numRows,
+            "data"    			=> 	$EventData
+        );
+
+        echo json_encode($output);
+    }
+
+    public function ZombieKillsGraph() {
+
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Killed Zombie' AND EventTime >= now() - interval 7 day;";
+
+
+        $result = mysqli_query($this->dbConnect, $sqlQuery);
+
+        $EventData = array();
+        $one = 0;
+        $two = 0;
+        $three = 0;
+        $four = 0;
+        $five = 0;
+        $six = 0;
+        $seven = 0;
+
+        while($rowData = mysqli_fetch_array($result)){
+            if ($rowData["EventTime"] = strtotime('-1 days')){
+                $one = $one + 1;
+            } // Yesterday
+            else if ($rowData["EventTime"] = strtotime('-2 days')) {
+                $two = $two + 1;
+            } else if ($rowData["EventTime"] = strtotime('-3 days')) {
+                $three = $three + 1;
+            } else if ($rowData["EventTime"] = strtotime('-4 days')) {
+                $four = $four + 1;
+            } else if ($rowData["EventTime"] = strtotime('-4 days')) {
+                $five = $five + 1;
+            } else if ($rowData["EventTime"] = strtotime('-4 days')) {
+                $six = $six + 1;
+            } else if ($rowData["EventTime"] = strtotime('-4 days')) {
+                $seven = $seven + 1;
+            }
+        }
+
+        $output = array(
+            "one"				=>	$one,
+            "two"  	            =>  $two,
+            "three" 	        => 	$three,
+            "four"    			=> 	$four,
+            "five"              => 	$five,
+            "six"               => 	$six,
+            "seven"             => 	$seven,
+        );
+
+        // Tally The Data into 7 rows corresponding to the last 7 days.
+        return(json_encode($output));
     }
 }
 
@@ -110,30 +176,14 @@ class User extends Dbconfig {
         }
         parent::__construct();
     }
-    private function getData($sqlQuery) {
-        $result = mysqli_query($this->dbConnect, $sqlQuery);
-        if(!$result){
-            die('Error in query: '. mysqli_error());
-        }
-        $data= array();
-        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $data[]=$row;
-        }
-        return $data;
-    }
-    private function getNumRows($sqlQuery) {
-        $result = mysqli_query($this->dbConnect, $sqlQuery);
-        if(!$result){
-            die('Error in query: '. mysqli_error());
-        }
-        $numRows = mysqli_num_rows($result);
-        return $numRows;
-    }
+
+
     public function loginStatus (){
         if(empty($_SESSION["userid"])) {
             header("Location: login.php");
         }
     }
+
     public function login(){
         $errorMessage = '';
         if(!empty($_POST["login"]) && $_POST["loginId"]!=''&& $_POST["loginPass"]!='') {
@@ -168,12 +218,14 @@ class User extends Dbconfig {
         }
         return $errorMessage;
     }
+
     public function adminLoginStatus (){
         if(empty($_SESSION["adminUserid"])) {
 
             header("Location: index.php");
         }
     }
+
     public function adminLogin(){
         $errorMessage = '';
         if(!empty($_POST["login"]) && $_POST["email"]!=''&& $_POST["password"]!='') {
@@ -196,8 +248,6 @@ class User extends Dbconfig {
         return $errorMessage;
     }
 
-
-
     public function getAuthtoken($email) {
         $code = md5(889966);
         $authtoken = $code."".md5($email);
@@ -212,6 +262,7 @@ class User extends Dbconfig {
         $userDetails = mysqli_fetch_assoc($result);
         return $userDetails;
     }
+
     public function editAccount () {
         $message = '';
         $updatePassword = '';
@@ -227,35 +278,6 @@ class User extends Dbconfig {
         if($isUpdated) {
             $_SESSION["name"] = $_POST['firstname']." ".$_POST['lastname'];
             $message = "Account details saved.";
-        }
-        return $message;
-    }
-    public function resetPassword(){
-        $message = '';
-        if($_POST['email'] == '') {
-            $message = "Please enter username or email to proceed with password reset";
-        } else {
-            $sqlQuery = "
-				SELECT email 
-				FROM ".$this->userTable." 
-				WHERE email='".$_POST['email']."'";
-            $result = mysqli_query($this->dbConnect, $sqlQuery);
-            $numRows = mysqli_num_rows($result);
-            if($numRows) {
-                $user = mysqli_fetch_assoc($result);
-                $authtoken = $this->getAuthtoken($user['email']);
-                $link="<a href='https://www.webdamn.com/demo/user-management-system/reset_password.php?authtoken=".$authtoken."'>Reset Password</a>";
-                $toEmail = $user['email'];
-                $subject = "Reset your password on examplesite.com";
-                $msg = "Hi there, click on this ".$link." to reset your password.";
-                $msg = wordwrap($msg,70);
-                $headers = "From: info@webdamn.com";
-                if(mail($toEmail, $subject, $msg, $headers)) {
-                    $message =  "Password reset link send. Please check your mailbox to reset password.";
-                }
-            } else {
-                $message = "No account exist with entered email address.";
-            }
         }
         return $message;
     }
@@ -292,6 +314,7 @@ class User extends Dbconfig {
         }
         return $message;
     }
+
     public function getUserList(){
         $sqlQuery = "SELECT * FROM ".$this->userTable." WHERE id !='".$_SESSION['adminUserid']."' ";
         if(!empty($_POST["search"]["value"])){
@@ -364,6 +387,7 @@ class User extends Dbconfig {
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         echo json_encode($row);
     }
+
     public function updateUser() {
         if($_POST['userid']) {
             $updateQuery = "UPDATE ".$this->userTable." 
@@ -372,6 +396,7 @@ class User extends Dbconfig {
             $isUpdated = mysqli_query($this->dbConnect, $updateQuery);
         }
     }
+
     public function saveAdminPassword(){
         $message = '';
         if($_POST['password'] && $_POST['password'] != $_POST['cpassword']) {
@@ -388,6 +413,7 @@ class User extends Dbconfig {
         }
         return $message;
     }
+
     public function adminDetails () {
         $sqlQuery = "SELECT * FROM ".$this->userTable." 
 			WHERE id ='".$_SESSION["adminUserid"]."'";
@@ -395,6 +421,7 @@ class User extends Dbconfig {
         $userDetails = mysqli_fetch_assoc($result);
         return $userDetails;
     }
+
     public function addUser () {
         if($_POST["email"]) {
             $authtoken = $this->getAuthtoken($_POST['email']);
