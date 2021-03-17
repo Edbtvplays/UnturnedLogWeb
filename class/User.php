@@ -71,12 +71,41 @@ class Players extends DbConfig
 
     public function getPlayerEvents($id) {
 
-        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." ";
+        // $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = '".$id."' ";
+        $search = "Tree";
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = '.$id.' AND EventType LIKE '%'.$search.'%';";
+
+        // If there is a search request.
+        $search = "Tree";
+        if (!empty($_POST["search"]["value"])) {
+            $sqlQuery .= "AND (EventType LIKE "%'.$search.'%" OR EventData LIKE "%'.$search.'%" ";
+        }
+
+        // If there is a order request with the datatable.
+        if (!empty($_POST["order"])) {
+            $sqlQuery .= 'ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
+        } else {
+            $sqlQuery .= 'ORDER BY PlayerId DESC ';
+        }
 
 
         $result = mysqli_query($this->dbConnect, $sqlQuery);
 
-        $numRows = mysqli_num_rows($result);
+        if($result) // will return true if succefull else it will return false and then run the Else which just runs the default Query.
+        {
+           $result = $result;
+        } else {
+            $sqlQuery1 = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id.";";
+            $result1 = mysqli_query($this->dbConnect, $sqlQuery1);
+            $result = $result1;
+        }
+
+        $filterednumRows = mysqli_num_rows($result);
+
+        // Gets the total ammount of rows in the database for this user as its used for datatables list.
+        $totalquery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id.";" ;
+        $total = mysqli_query($this->dbConnect, $totalquery);
+        $numRows = mysqli_num_rows($total);
 
         $EventData = array();
 
@@ -90,14 +119,16 @@ class Players extends DbConfig
         }
         // Inner join the server to get the Server name to display on the Event table.
 
+
         $output = array(
             "draw"				=>	intval($_POST["draw"]),
             "recordsTotal"  	=>  $numRows,
-            "recordsFiltered" 	=> 	$numRows,
+            "recordsFiltered" 	=> 	$filterednumRows,
             "data"    			=> 	$EventData
         );
 
-        return(json_encode($output));
+        echo json_encode($output);
+
     }
 
     public function GetStatistic($statistic) {

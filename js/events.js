@@ -8,23 +8,35 @@ $(document).ready(function(){
 		console.error("No Player Key Entered ")
 	}
 
-
 	// If a Parameter does exsist.
 	else {
 		// Get Statistical Data
-		$(document).ready(function () {
-			$('#eventList').dataTable({
-				"language": {
-					"lengthMenu": "_MENU_",
-					"search": ""
+		console.log("Executed");
+		// Data Table Gets information for all Events.
+		var EventsData = $('#eventList').DataTable({
+			"lengthChange": false,
+			"processing": true,
+			"serverSide": true,
+			"order": [],
+			"ajax": {
+				url: "action.php",
+				type: "POST",
+				data: {action: 'listevents', id: searchParams.get('player')},
+				dataType: "json"
+			},
+			"language": {
+				"lengthMenu": "_MENU_",
+				"search": ""
+			},
+			"columnDefs": [
+				{
+					"targets": [0, 1, 2, 3],
+					"orderable": true,
+					"searchable": true
 				},
-				"bInfo": false,
-				"columnDefs": [{
-					"orderable": false,
-					"targets": 0,
-				}]
-			});
+			],
+			"pageLength": 25
 		});
-
+		console.log(EventsData)
 	}
 });
