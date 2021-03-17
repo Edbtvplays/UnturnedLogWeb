@@ -9,7 +9,6 @@ include('include/header.php');
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
 <link rel="stylesheet" href="css/dataTables.bootstrap.min.css" />
-    <script src="js/events.js"></script>
     <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
 
@@ -17,8 +16,9 @@ include('include/header.php');
 // Get Data set, to parse into the graph using php function. Usually along the bottom would be the time and up the Y would be the amount.
 // Im aware that this code is messy it just needs to be cleaned up and made OOP by putting it in a seperate class which will inherit the DB connection.
 
-echo($player->getPlayerEvents());
 $encoded = $player->ZombieKillsGraph();
+
+echo($player->getPlayerEvents(76561198236325606));
 
 $data = json_decode($encoded, true);
 
@@ -36,6 +36,42 @@ $dataPoints = array(
 
 
 <script type="text/javascript">
+    // Gets All Parameters from the URL
+    let searchParams = new URLSearchParams(window.location.search)
+
+    // Tries to See if the Player Paramter is in the URL if it isnt throw a Error.
+    let param = searchParams.get('player')
+
+
+
+    if (!param) {
+        console.error("No Player Key Entered ")
+    }
+
+    $(document).ready(function () {
+        $('#eventList').dataTable({
+            "processing":true,
+            "serverSide":true,
+            "language": {
+                "lengthMenu": "_MENU_",
+                "search": ""
+            },
+            "ajax":{
+                url:"action.php",
+                type:"POST",
+                data:{action:'listevents', id: param },
+                dataType:"json"
+            },
+            "bInfo": false,
+            "columnDefs":[
+                {
+                    "targets":[0, 1, 2],
+                    "orderable":false,
+                },
+            ],
+        });
+    });
+    console.log(param)
     // Render a Chart
     $(function () {
         var chart = new CanvasJS.Chart("chartContainer", {

@@ -69,9 +69,9 @@ class Players extends DbConfig
     }
 
 
-    public function getPlayerEvents() {
+    public function getPlayerEvents($id) {
 
-        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET['player']." ";
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." ";
 
 
         $result = mysqli_query($this->dbConnect, $sqlQuery);
@@ -90,8 +90,14 @@ class Players extends DbConfig
         }
         // Inner join the server to get the Server name to display on the Event table.
 
+        $output = array(
+            "draw"				=>	intval($_POST["draw"]),
+            "recordsTotal"  	=>  $numRows,
+            "recordsFiltered" 	=> 	$numRows,
+            "data"    			=> 	$EventData
+        );
 
-        return(json_encode($EventData));
+        return(json_encode($output));
     }
 
     public function GetStatistic($statistic) {
