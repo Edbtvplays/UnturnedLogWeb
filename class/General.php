@@ -42,7 +42,16 @@ class Players extends DbConfig
     }
 
     public function getPlayerList() {
-        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Players;";
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Players ";
+
+        if(!empty($_POST["search"]["value"])){
+            $sqlQuery .= 'WHERE (Id = "'.$_POST["search"]["value"].'" ';
+            $sqlQuery .= ' OR SteamName LIKE "%'.$_POST["search"]["value"].'%" ';
+        }
+
+        if($_POST["length"] != -1){
+            $sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+        }
 
         $result = mysqli_query($this->dbConnect, $sqlQuery);
 
@@ -52,7 +61,7 @@ class Players extends DbConfig
 
         while($player = mysqli_fetch_assoc($result) ) {
             $playerRows = array();
-            $playerRows[] = $player['Id'];
+            $playerRows[] = '<a href="http://unturned-log.test/players.php?player='.$player['Id'].'">'.$player['Id'].'</a>';
             $playerRows[] = $player['CharacterName'];
             $playerRows[] = $player['SteamName'];
             $playerData[] = $playerRows;
@@ -69,45 +78,46 @@ class Players extends DbConfig
     }
 
 
-    public function getPlayerEvents($id) {
+    public function getPlayerEvents() {
 
-        // $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = '".$id."' ";
-        $search = "Tree";
-        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = '.$id.' AND EventType LIKE '%'.$search.'%';";
+        // TODO: Error Handeling for this.
 
+        $PlayerListErrorMessage = '';
+
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = '".$_POST["id"]."' ";
+
+        // TODO: Parametise the SQL to protect from attacks.
+
+
+        // TODO: Fix searching
         // If there is a search request.
-        $search = "Tree";
-        if (!empty($_POST["search"]["value"])) {
-            $sqlQuery .= "AND (EventType LIKE "%'.$search.'%" OR EventData LIKE "%'.$search.'%" ";
+        if(!empty($_POST["search"]["value"])){
+            $sqlQuery .= '(EventType = "'.$_POST["search"]["value"].'" ';
+            $sqlQuery .= ' OR EventData LIKE "%'.$_POST["search"]["value"].'%" ';
         }
 
-        // If there is a order request with the datatable.
-        if (!empty($_POST["order"])) {
-            $sqlQuery .= 'ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
+        if(!empty($_POST["order"])){
+            $sqlQuery .= 'ORDER BY '.$_POST['order']['0']['column'].' '.$_POST['order']['0']['dir'].' ';
         } else {
-            $sqlQuery .= 'ORDER BY PlayerId DESC ';
+            $sqlQuery .= 'ORDER BY EventTime DESC ';
         }
 
+        if($_POST["length"] != -1){
+            $sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+        }
 
         $result = mysqli_query($this->dbConnect, $sqlQuery);
-
-        if($result) // will return true if succefull else it will return false and then run the Else which just runs the default Query.
-        {
-           $result = $result;
-        } else {
-            $sqlQuery1 = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id.";";
-            $result1 = mysqli_query($this->dbConnect, $sqlQuery1);
-            $result = $result1;
-        }
 
         $filterednumRows = mysqli_num_rows($result);
 
         // Gets the total ammount of rows in the database for this user as its used for datatables list.
-        $totalquery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id.";" ;
-        $total = mysqli_query($this->dbConnect, $totalquery);
-        $numRows = mysqli_num_rows($total);
+        $totalquery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_POST["id"].";" ;
+        $totalresult = mysqli_query($this->dbConnect, $totalquery);
+        $totalrows = mysqli_num_rows($totalresult);
 
         $EventData = array();
+
+        // TODO: DO a inner join for grabbing the players server name that corresponds with the "ServerID"
 
         while($Event = mysqli_fetch_assoc($result) ) {
             $EventRows = array();
@@ -122,8 +132,8 @@ class Players extends DbConfig
 
         $output = array(
             "draw"				=>	intval($_POST["draw"]),
-            "recordsTotal"  	=>  $numRows,
-            "recordsFiltered" 	=> 	$filterednumRows,
+            "recordsTotal"  	=>  $totalrows,
+            "recordsFiltered" 	=> 	$totalrows,
             "data"    			=> 	$EventData
         );
 
@@ -242,19 +252,19 @@ class Players extends DbConfig
         $seven = 0;
 
         while($rowData = mysqli_fetch_array($result)){
-            if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d",strtotime('-1 days'))){
+            if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d",strtotime('-0 days'))){
                 $one = $one + 1;
-            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-2 days'))) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-1 days'))) {
                 $two = $two + 1;
-            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-3 days'))) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-2 days'))) {
                 $three = $three + 1;
-            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-4 days'))) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-3 days'))) {
                 $four = $four + 1;
-            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-5 days'))) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) == date("Y-m-d", strtotime('-4 days'))) {
                 $five = $five + 1;
-            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) === date("Y-m-d", strtotime('-6 days'))) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) === date("Y-m-d", strtotime('-5 days'))) {
                 $six = $six + 1;
-            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) === date("Y-m-d", strtotime('-7 days'))) {
+            } else if (date("Y-m-d", strtotime($rowData["EventTime"])) === date("Y-m-d", strtotime('-6 days'))) {
                 $seven = $seven + 1;
             }
         }
@@ -484,6 +494,7 @@ class User extends Dbconfig {
             $userRows[] = '<button type="button" name="delete" id="'.$users["id"].'" class="btn btn-danger btn-xs delete" >Delete</button>';
             $userData[] = $userRows;
         }
+
         $output = array(
             "draw"				=>	intval($_POST["draw"]),
             "recordsTotal"  	=>  $numRows,

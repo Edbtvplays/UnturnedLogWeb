@@ -1,5 +1,5 @@
 <?php
-include('../class/User.php');
+include('../class/General.php');
 $user = new User();
 if(!empty($_POST['action']) && $_POST['action'] == 'listUser') {
 	$user->getUserList();

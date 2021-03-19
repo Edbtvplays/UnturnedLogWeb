@@ -1,5 +1,5 @@
 <?php 
-include('class/User.php');
+include('class/General.php');
 $user = new User();
 $user->loginStatus();
 $player = new Players();
@@ -16,23 +16,90 @@ include('include/header.php');
 // Get Data set, to parse into the graph using php function. Usually along the bottom would be the time and up the Y would be the amount.
 // Im aware that this code is messy it just needs to be cleaned up and made OOP by putting it in a seperate class which will inherit the DB connection.
 
-$encoded = $player->ZombieKillsGraph();
+// TODO: If time, get the players profile picture using there hash and display it on the website.
 
-echo($player->getPlayerEvents(76561198236325606));
+$encoded = $player->ZombieKillsGraph();
 
 $data = json_decode($encoded, true);
 
 // Need to get the date for the 7 days previous.
 $dataPoints = array(
-    array("y" => $data["one"], "label" => date('Y-m-d', strtotime('-1 days'))),
-    array("y" => $data["two"], "label" => date('Y-m-d', strtotime('-2 days'))),
-    array("y" => $data["three"], "label" => date('Y-m-d', strtotime('-3 days'))),
-    array("y" => $data["four"], "label" => date('Y-m-d', strtotime('-4 days'))),
-    array("y" => $data["five"], "label" => date('Y-m-d', strtotime('-5 days'))),
-    array("y" => $data["six"], "label" => date('Y-m-d', strtotime('-6 days'))),
-    array("y" => $data["seven"], "label" => date('Y-m-d', strtotime('-7 days'))),
+    array("y" => $data["one"], "label" => date('Y-m-d', strtotime('-0 days'))),
+    array("y" => $data["two"], "label" => date('Y-m-d', strtotime('-1 days'))),
+    array("y" => $data["three"], "label" => date('Y-m-d', strtotime('-2 days'))),
+    array("y" => $data["four"], "label" => date('Y-m-d', strtotime('-3 days'))),
+    array("y" => $data["five"], "label" => date('Y-m-d', strtotime('-4 days'))),
+    array("y" => $data["six"], "label" => date('Y-m-d', strtotime('-5 days'))),
+    array("y" => $data["seven"], "label" => date('Y-m-d', strtotime('-6 days'))),
 );
 ?>
+
+
+<script>
+    // TODO: Actually Parse Real Data into this.
+    window.onload = function () {
+
+        var chart = new CanvasJS.Chart("KillsDeaths", {
+            animationEnabled: true,
+            title:{
+                text: "Player Kills/Deaths"
+            },
+            axisY: {
+                suffix: " "
+            },
+            legend:{
+                cursor: "pointer",
+                fontSize: 16,
+                itemclick: toggleDataSeries
+            },
+            toolTip:{
+                shared: true
+            },
+            data: [{
+                name: "Player Kills",
+                type: "spline",
+                yValueFormatString: "#0.##",
+                showInLegend: true,
+                dataPoints: [
+                    { x: new Date(2017,6,24), y: 31 },
+                    { x: new Date(2017,6,25), y: 31 },
+                    { x: new Date(2017,6,26), y: 29 },
+                    { x: new Date(2017,6,27), y: 29 },
+                    { x: new Date(2017,6,28), y: 31 },
+                    { x: new Date(2017,6,29), y: 30 },
+                    { x: new Date(2017,6,30), y: 29 }
+                ]
+            },
+                {
+                    name: "Player Deaths",
+                    type: "spline",
+                    yValueFormatString: "#0.##",
+                    showInLegend: true,
+                    dataPoints: [
+                        { x: new Date(2017,6,24), y: 20 },
+                        { x: new Date(2017,6,25), y: 20 },
+                        { x: new Date(2017,6,26), y: 25 },
+                        { x: new Date(2017,6,27), y: 25 },
+                        { x: new Date(2017,6,28), y: 25 },
+                        { x: new Date(2017,6,29), y: 25 },
+                        { x: new Date(2017,6,30), y: 25 }
+                    ]
+                }]
+        });
+        chart.render();
+
+        function toggleDataSeries(e){
+            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            }
+            else{
+                e.dataSeries.visible = true;
+            }
+            chart.render();
+        }
+
+    }
+</script>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -41,14 +108,15 @@ $dataPoints = array(
 
         // Tries to See if the Player Paramter is in the URL if it isnt throw a Error.
         let param = searchParams.has('player') // true
+
         if (!param) {
             console.error("No Player Key Entered ")
         }
 
+        //TODO: Display Error here that no valid player key was entered or redirect to home and show it.
+
         // If a Parameter does exsist.
         else {
-            // Get Statistical Data
-            console.log("Executed");
             // Data Table Gets information for all Events.
             var EventsData = $('#eventList').DataTable({
                 "lengthChange": false,
@@ -73,11 +141,8 @@ $dataPoints = array(
                 ],
                 "pageLength": 25
             });
-            console.log(EventsData)
         }
     });
-
-
 </script>
 
 <script type="text/javascript">
@@ -104,6 +169,7 @@ $dataPoints = array(
 
 <?php include('include/container.php');?>
 <div class="container contact">
+    <?php include('menu.php');?>
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-10">
@@ -303,7 +369,7 @@ $dataPoints = array(
                 </div>
             </div>
         </div>
-
+        <div id="KillsDeaths" style="height: 370px; width: 100%;padding-bottom:100px"></div>
         <div id="chartContainer" style="width:100%; height:300px;padding-bottom:100px"></div>
         <div class="panel-heading">
             <div class="row">

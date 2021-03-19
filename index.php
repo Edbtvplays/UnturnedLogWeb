@@ -1,14 +1,43 @@
 <?php 
-include('class/User.php');
+include('class/General.php');
 $user = new User();
 $user->loginStatus();
 include('include/header.php');
 ?>
 <title>UnturnedLog - Home</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
 <link rel="stylesheet" href="css/dataTables.bootstrap.min.css" />
-<script src="js/players.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var usersData = $('#userList').DataTable({
+            "lengthChange": false,
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                url: "action.php",
+                type: "POST",
+                data: {action: 'listplayer'},
+                dataType: "json"
+            },
+            "language": {
+                "lengthMenu": "_MENU_",
+                "search": ""
+            },
+            "columnDefs": [
+                {
+                    "targets": [0, 1, 2],
+                    "orderable": false,
+                },
+            ],
+            "pageLength": 25
+        });
+    });
+</script>
+
 <?php include('include/container.php');?>
 <div class="container contact">
 	<?php include('menu.php');?>

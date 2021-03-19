@@ -1,5 +1,5 @@
 <?php 
-include('class/User.php');
+include('class/General.php');
 $user = new User();
 $user->loginStatus();
 $userDetail = $user->userDetails();
@@ -27,10 +27,6 @@ include('include/header.php');
 			<tr>
 				<th>Gender</th>
 				<td><?php echo $userDetail['gender']; ?></td>
-			</tr>
-			<tr>
-				<th>Mobile</th>
-				<td><?php echo $userDetail['mobile']; ?></td>
 			</tr>
 			<tr>
 				<th>Designation</th>

@@ -1,5 +1,5 @@
 <?php 
-include('../class/User.php');
+include('../class/General.php');
 $user = new User();
 $user->adminLoginStatus();
 include('include/header.php');
