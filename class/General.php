@@ -80,14 +80,17 @@ class Players extends DbConfig
 
     public function getPlayerEvents() {
 
-        // TODO: Error Handeling for this.
 
-        $PlayerListErrorMessage = '';
+        $id= $this->dbConnect->real_escape_string($_POST["id"]);
 
-        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = '".$_POST["id"]."' ";
 
-        // TODO: Parametise the SQL to protect from attacks.
+        // If the URL is not
+        if (strlen($id) != 17) {
+            // Set Error message to True and then Return
+            return 0;
+        }
 
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = '".$id."' ";
 
         // TODO: Fix searching
         // If there is a search request.
@@ -111,20 +114,25 @@ class Players extends DbConfig
         $filterednumRows = mysqli_num_rows($result);
 
         // Gets the total ammount of rows in the database for this user as its used for datatables list.
-        $totalquery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_POST["id"].";" ;
+        $totalquery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id.";" ;
         $totalresult = mysqli_query($this->dbConnect, $totalquery);
         $totalrows = mysqli_num_rows($totalresult);
 
         $EventData = array();
 
-        // TODO: DO a inner join for grabbing the players server name that corresponds with the "ServerID"
+
+        $totalrows = mysqli_num_rows($totalresult);
 
         while($Event = mysqli_fetch_assoc($result) ) {
             $EventRows = array();
             $EventRows[] = $Event['EventType'];
             $EventRows[] = $Event['EventData'];
-            $EventRows[] = $Event['ServerId'];
+            $innerjoin = "SELECT Name FROM Edbtvplays_UnturnedLog_Servers INNER JOIN Edbtvplays_UnturnedLog_Events ON Edbtvplays_UnturnedLog_Servers.Id = '".$Event['ServerId']."';";
+            $server = mysqli_query($this->dbConnect, $innerjoin);
             $EventRows[] = $Event['EventTime'];
+            while($Server = mysqli_fetch_assoc($server) ) {
+                $EventRows[] = $Server['Name'];
+            }
             $EventData[] = $EventRows;
         }
         // Inner join the server to get the Server name to display on the Event table.
@@ -144,50 +152,91 @@ class Players extends DbConfig
     public function GetStatistic($statistic) {
 
         $sqlQuery = "";
-        if ($statistic == "CHAT_MESSAGES") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Chat Message'";
-        } else if ($statistic == "KILLED_ZOMBIES") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Killed Zombie'";
-        } else if ($statistic == "KILLED_MEGA_ZOMBIES") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Killed Mega Zombie'";
-        } else if ($statistic == "FOUND_PLANTS") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Found Plants'";
-        } else if ($statistic == "FOUND_RESOURCES") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = " . $_GET["player"] . " AND EventType = 'Found Resource'";
-        } else if ($statistic == "FARMED_RESOURCES") {
-                $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Resource harvested'";
-        } else if ($statistic == "PLAYER_HEADSHOTS") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Player Headshot'";
-        } else if ($statistic == "FISH_CAUGHT") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Fish Caught'";
-        } else if ($statistic == "BUILDABLE_PLACED") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Placed Buildable'";
-        } else if ($statistic == "PUNISHMENTS") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Player Banned'";
-        } else if ($statistic == "PLAYER_KILLS") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Player Kill'";
-        } else if ($statistic == "PLAYER_DEATHS") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Death'";
-        } else if ($statistic == "PLAYER_TELEPORTS") {
-            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Teleported'";
-        } else {
-            return "Error: Not a valid thing to display";
-        }
+        $Errormessage = '';
 
-        $result = mysqli_query($this->dbConnect, $sqlQuery);
+        // Escapes string for use in MYSQL
+        $id = $this->dbConnect->real_escape_string($_GET["player"]);
 
-        if (!$result) {
+        // If its empty return 0
+        if (!$_GET["player"]) {
             return 0;
-        } else {
-            $amount =  mysqli_num_rows($result);
-            return($amount);
         }
 
+        // If the URL is not numeric.
+
+        // If the URL is not
+        if (strlen($id) != 17 and $statistic == "Other") {
+            // Set Error message to True and then Return
+            $Errormessage = "Error: Player ID Provided is not of correct length.";
+            return $Errormessage;
+        }
+
+        if (is_numeric($id) != 1 and $statistic == "Other") {
+            // Set Error message to True then return
+            $Errormessage = 'Error: Player ID provided is not a Integer.';
+            return $Errormessage;
+        }
+
+
+        if ($statistic == "CHAT_MESSAGES") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Chat Message'";
+        } else if ($statistic == "KILLED_ZOMBIES") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Killed Zombie'";
+        } else if ($statistic == "KILLED_MEGA_ZOMBIES") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Killed Mega Zombie'";
+        } else if ($statistic == "FOUND_PLANTS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Found Plants'";
+        } else if ($statistic == "FOUND_RESOURCES") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = " .$id. " AND EventType = 'Found Resource'";
+        } else if ($statistic == "FARMED_RESOURCES") {
+                $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Resource harvested'";
+        } else if ($statistic == "PLAYER_HEADSHOTS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Player Headshot'";
+        } else if ($statistic == "FISH_CAUGHT") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Fish Caught'";
+        } else if ($statistic == "BUILDABLE_PLACED") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Placed Buildable'";
+        } else if ($statistic == "PUNISHMENTS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Player Banned'";
+        } else if ($statistic == "PLAYER_KILLS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Player Kill'";
+        } else if ($statistic == "PLAYER_DEATHS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Death'";
+        } else if ($statistic == "PLAYER_TELEPORTS") {
+            $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Teleported'";
+        }
+
+        // Check to see if the parameter provided is valid to weather or not to actually return the value from it.
+        if ($statistic != "Other") {
+            $result = mysqli_query($this->dbConnect, $sqlQuery);
+            if(!$result) {
+                return 0;
+            }
+            $amount = mysqli_num_rows($result);
+            return ($amount);
+        }
     }
 
     public function GetInformation($information) {
 
-        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Players WHERE Id = ".$_GET["player"].";";
+        $id = $this->dbConnect->real_escape_string($_GET["player"]);
+
+        if (!$_GET["player"]) {
+            return 0;
+        }
+
+        if (!is_numeric($id)) {
+            // Set Error message to True then return
+            return 0;
+        }
+
+        // If the URL is not
+        if (strlen($id) != 17) {
+            // Set Error message to True and then Return
+            return 0;
+        }
+
+        $sqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Players WHERE Id = ".$id.";";
         $result = mysqli_query($this->dbConnect, $sqlQuery);
         $PlayerData = array();
 
@@ -227,17 +276,45 @@ class Players extends DbConfig
                 $PlayerRows = array();
                 $PlayerRows[] = $Player['SteamName'];
                 $PlayerData = $PlayerRows;
-            };
-            return($PlayerData[0]);
+            }
+        } else if ($information == "LAST_SERVER") {
+            while ($Player = mysqli_fetch_assoc($result)) {
+                $PlayerRows = array();
+                $innerjoin = "SELECT Name FROM Edbtvplays_UnturnedLog_Servers INNER JOIN Edbtvplays_UnturnedLog_Players ON Edbtvplays_UnturnedLog_Servers.Id = '" . $Player['ServerId'] . "';";
+                $server = mysqli_query($this->dbConnect, $innerjoin);
+                while ($Server = mysqli_fetch_assoc($server)) {
+                    $PlayerRows[] = $Server['Name'];
+                }
+                $PlayerData = $PlayerRows;
+            }
         }
-
-
+        return($PlayerData[0]);
     }
-
 
     public function ZombieKillsGraph() {
 
-        $sqlQuery = "SELECT EventTime FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$_GET["player"]." AND EventType = 'Killed Zombie' AND EventTime >= now() - interval 7 day;";
+        if (!$_GET["player"]) {
+            return 0;
+        }
+
+        $id = $this->dbConnect->real_escape_string($_GET["player"]);
+
+        if (!$_GET["player"]) {
+            return 0;
+        }
+
+        if (!is_numeric($id)) {
+            // Set Error message to True then return
+            return 0;
+        }
+
+        // If the URL is not
+        if (strlen($id) != 17) {
+            // Set Error message to True and then Return
+            return 0;
+        }
+
+        $sqlQuery = "SELECT EventTime FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Killed Zombie' AND EventTime >= now() - interval 7 day;";
 
 
         $result = mysqli_query($this->dbConnect, $sqlQuery);
@@ -317,6 +394,8 @@ class User extends Dbconfig {
         }
     }
 
+
+    // TODO: Clean up and comment on this code, Remove unneccecary values in admin side and clean up queries so they show all users aswell as improve error handeling.
     public function login(){
         $errorMessage = '';
         if(!empty($_POST["login"]) && $_POST["loginId"]!=''&& $_POST["loginPass"]!='') {
@@ -359,6 +438,7 @@ class User extends Dbconfig {
         }
     }
 
+    // TODO: If Time merge the admin login into the main login, so admins dont have to relog in and instead can semlousley transition between the admin side and normal user side.
     public function adminLogin(){
         $errorMessage = '';
         if(!empty($_POST["login"]) && $_POST["email"]!=''&& $_POST["password"]!='') {

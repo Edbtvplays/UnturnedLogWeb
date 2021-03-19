@@ -3,6 +3,7 @@ include('class/General.php');
 $user = new User();
 $user->loginStatus();
 $player = new Players();
+$ErrorMessage = $player->GetStatistic("Other");
 include('include/header.php');
 ?>
 <title>UnturnedLog - Home</title>
@@ -11,6 +12,12 @@ include('include/header.php');
 <link rel="stylesheet" href="css/dataTables.bootstrap.min.css" />
 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
+
+<style>
+    .alert:empty {
+        display: none;
+    }
+</style>
 
 <?php
 // Get Data set, to parse into the graph using php function. Usually along the bottom would be the time and up the Y would be the amount.
@@ -106,14 +113,17 @@ $dataPoints = array(
         // Gets All Parameters from the URL
         let searchParams = new URLSearchParams(window.location.search)
 
-        // Tries to See if the Player Paramter is in the URL if it isnt throw a Error.
-        let param = searchParams.has('player') // true
+        let param = searchParams.get('player') // true
 
+        // Tries to See if the Player Paramter is in the URL if it isnt throw a Error.
+
+        console.log(param)
         if (!param) {
+            document.getElementById("generalalert").innerHTML="No Player Parameter was Entered.";
             console.error("No Player Key Entered ")
+            return 0
         }
 
-        //TODO: Display Error here that no valid player key was entered or redirect to home and show it.
 
         // If a Parameter does exsist.
         else {
@@ -170,6 +180,10 @@ $dataPoints = array(
 <?php include('include/container.php');?>
 <div class="container contact">
     <?php include('menu.php');?>
+    <?php if ($ErrorMessage != '') { ?>
+        <div id="login-alert" class="alert alert-danger col-sm-12"><?php echo $ErrorMessage; ?></div>
+    <?php } ?>
+    <div id="generalalert" class="alert alert-danger"></div>
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-10">
@@ -203,6 +217,16 @@ $dataPoints = array(
                 <div class="stat-panel text-center">
                     <div class="stat-panel-number h3"><?php echo $player->GetInformation("LAST_PLAYED"); ?></div>
                     <div class="stat-panel-title text-uppercase">Last Played on</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-body bk-success text-light">
+                <div class="stat-panel text-center">
+                    <div class="stat-panel-number h3"><?php echo $player->GetInformation("LAST_SERVER"); ?></div>
+                    <div class="stat-panel-title text-uppercase">Last Server Played</div>
                 </div>
             </div>
         </div>
@@ -383,8 +407,8 @@ $dataPoints = array(
             <tr>
                 <th>EventType</th>
                 <th>EventData</th>
-                <th>ServerId</th>
                 <th>EventTime</th>
+                <th>ServerId</th>
             </tr>
             </thead>
         </table>
