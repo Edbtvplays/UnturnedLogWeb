@@ -39,8 +39,21 @@ include('include/header.php');
 </script>
 
 <?php include('include/container.php');?>
+
+<?php //function ShowServerInfos() { global $S_APIKEY ; ?>
+<!--        --><?php //$json_String = file_get_contents("https://unturned-servers.net/api/?object=server@element=detail&key=". $S_APIKEY.""); $arr = json_decode($json_String, true); ?>
+<!--        <div class ="ServerInfos">-->
+<!--            <div class ="InfoS"><span class ="InfoName"><i class="fall fa-info-circle icon"></i>Name   </span><span class="InfoValue SName">--><?php //echo $arr["name"];?><!--</span></div>-->
+<!--            <div class ="InfoS"><span class ="InfoName"><i class="fall fa-info-circle icon"></i>Address  </span><span class="InfoValue SName">--><?php //echo $arr["name"];?><!--</span></div>-->
+<!--            <div class ="InfoS"><span class ="InfoName"><i class="fall fa-info-circle icon"></i>Status   </span><span class="InfoValue SName">--><?php //echo $arr["name"];?><!--</span></div>-->
+<!--            <div class ="InfoS"><span class ="InfoName"><i class="fall fa-info-circle icon"></i>Map   </span><span class="InfoValue SName">--><?php //echo $arr["name"];?><!--</span></div>-->
+<!--            <div class ="InfoS"><span class ="InfoName"><i class="fall fa-info-circle icon"></i>Location   </span><span class="InfoValue SName">--><?php //echo $arr["name"];?><!--</span></div>-->
+<!--            <div class ="InfoS"><span class ="InfoName"><i class="fall fa-info-circle icon"></i>Players   </span><span class="InfoValue SName">--><?php //echo $arr["name"];?><!--</span></div>-->
+<!--            <div class ="InfoS"><span class ="InfoName"><i class="fall fa-info-circle icon"></i>Version   </span><span class="InfoValue SName">--><?php //echo $arr["name"];?><!--</span></div>-->
+<!--        </div>-->
+
 <div class="container contact">
-	<?php include('menu.php');?>
+	<?php include('include/menu.php');?>
     <class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
         <div class="panel-heading">
             <div class="row">

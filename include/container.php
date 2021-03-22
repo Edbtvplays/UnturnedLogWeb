@@ -13,11 +13,8 @@
           <a href="#" class="navbar-brand">UnturnedLog</a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-           
-          </ul>
          
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </div>
 	

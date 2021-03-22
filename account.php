@@ -8,7 +8,7 @@ include('include/header.php');
 <title>UnturnedLog - Account</title>
 <?php include('include/container.php');?>
 <div class="container contact">
-	<?php include('menu.php');?>
+	<?php include('include/menu.php');?>
 	<div class="table-responsive">		
 		<div><span style="font-size:20px;">User Account Details:</span><div class="pull-right"><a href="edit_account.php">Edit Account</a></div>
 		<table class="table table-boredered">		
@@ -25,12 +25,8 @@ include('include/header.php');
 				<td>**********</td>
 			</tr>
 			<tr>
-				<th>Gender</th>
-				<td><?php echo $userDetail['gender']; ?></td>
-			</tr>
-			<tr>
-				<th>Designation</th>
-				<td><?php echo $userDetail['designation']; ?></td>
+				<th>Type</th>
+				<td><?php echo $userDetail['type']; ?></td>
 			</tr>		
 		</table>
 	</div>	

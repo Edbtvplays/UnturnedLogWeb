@@ -1,20 +1,22 @@
 <?php 
-include('../class/General.php');
+include('class/General.php');
 $user = new User();
 $user->adminLoginStatus();
 $message  = '';
+
 if(!empty($_POST['password_change']) && $_POST['password_change']) {
-	$message = $user->saveAdminPassword();
+	$message = $user->savePassword();
 }
+
 include('include/header.php');
 ?>
 <title>UnturnedLog - Admin Change Password</title>
 <link rel="stylesheet" href="css/style.css">
 <?php include('include/container.php');?>
 <div class="container contact">
-	<?php include 'menus.php'; ?>
+	<?php include 'include/menu.php'; ?>
 	<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">   
-		<a href="#"><strong><span class="fa fa-dashboard"></span> Change Password</strong></a>
+		<strong><span class="fa fa-dashboard"></span> Change Password</strong>
 		<hr>
 		<div class="col-sm-6"> 
 			<?php if ($message != '') { ?>
