@@ -5,6 +5,11 @@ $user->loginStatus();
 include('include/header.php');
 $players = new Players();
 
+$Leaderboard = ($players->ranking("Kills"));
+
+$LeaderBoard = $players->array_search($Leaderboard, "Edbtvplays", ["Name", "Ranking"]);
+
+print_r($LeaderBoard);
 // Kills/Deaths Graph
 $KillsUnencoded = $players->LineGraph("Global", "Kills/Deaths");
 

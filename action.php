@@ -5,16 +5,16 @@ $user = new User();
 if(!empty($_POST['action']) && $_POST['action'] == 'listplayer') {
     $players->getPlayerList();
 }
-else if(!empty($_POST['action']) && $_POST['action'] == 'listevents') {
+if(!empty($_POST['action']) && $_POST['action'] == 'listevents') {
     $players->getPlayerEvents();
 }
-else if(!empty($_POST['action']) && $_POST['action'] == 'killsleaderboard') {
+if(!empty($_POST['action']) && $_POST['action'] == 'killsleaderboard') {
     $players->Leaderboard("Kills");
 }
-else if(!empty($_POST['action']) && $_POST['action'] == 'deathsleaderboard') {
+if(!empty($_POST['action']) && $_POST['action'] == 'deathsleaderboard') {
     $players->Leaderboard("Deaths");
 }
-else if(!empty($_POST['action']) && $_POST['action'] == 'listUser') {
+if(!empty($_POST['action']) && $_POST['action'] == 'listUser') {
     $user->getUserList();
 }
 if(!empty($_POST['action']) && $_POST['action'] == 'userDelete') {

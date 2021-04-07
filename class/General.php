@@ -19,10 +19,10 @@ class DbConfig {
 // This class is used in one instance for sorting an array by value, i had more plans for this but run out of time.
 class multiSort
 {
-    var $key;    //key in your array
+    protected $key;    //key in your array
 
     //runs the sort, and returns sorted array
-    function run ($myarray, $key_to_sort, $type_of_sort = '')
+    public function run ($myarray, $key_to_sort, $type_of_sort = '')
     {
         $this->key = $key_to_sort;
 
@@ -35,7 +35,7 @@ class multiSort
     }
 
     //for ascending order
-    function mycompare($x, $y)
+    private function mycompare($x, $y)
     {
         if ( $x[$this->key] == $y[$this->key] )
             return 0;
@@ -46,7 +46,7 @@ class multiSort
     }
 
     //for descending order
-    function myreverse_compare($x, $y)
+    private function myreverse_compare($x, $y)
     {
         if ( $x[$this->key] == $y[$this->key] )
             return 0;
@@ -138,12 +138,10 @@ class Players extends DbConfig
         echo json_encode($output);
     }
 
-    public function Leaderboard($type) {
+    public function ranking($type) {
 
-        // SQL Query for grabbing how many players there are so it knows how many to create arrays for.
         $PlayerssqlQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Players;";
         $Playersresult = mysqli_query($this->dbConnect, $PlayerssqlQuery);
-        $numRows = mysqli_num_rows($Playersresult);
 
 
         // Creates a Nested Array with all appropriate Values and assigns the players steam name to the Name value.
@@ -176,6 +174,7 @@ class Players extends DbConfig
         // Need to sort the Associative Array by Kills.
         $Multisort = new multisort();
 
+
         if ($type == "Kills") {
             $LeaderBoard = $Multisort->run($LeaderBoard, "Kills", "desc");
         } else if ($type == "Deaths") {
@@ -187,25 +186,29 @@ class Players extends DbConfig
         foreach ($LeaderBoard as $key => $val) {
             $LeaderBoard[$key]["Ranking"] = $Ranking.date('S',mktime(1,1,1,1,( (($Ranking>=10)+($Ranking>=20)+($Ranking==0))*10 + $Ranking%10) ));;
             $Ranking += 1;
-
         }
+
+        return $LeaderBoard;
+
+    }
+
+    public function Leaderboard($type) {
+
+        $LeaderBoard = $this->ranking($type);
 
         $search = $this->dbConnect->real_escape_string($_POST["search"]["value"]);
 
         if(!empty($search)){
-            foreach ($LeaderBoard as $key => $val) {
-                if ($LeaderBoard[$key]['Name'] == $search) {
-                    $LeaderBoard = [$key => $LeaderBoard[$key]];
-                    break;
-                }
-            }
+            $LeaderBoard = $this->array_search($LeaderBoard, $search, ["Name", "Ranking"]);
         }
 
+        $numRows = 0;
         $playerData = array();
 
         // This should only be completed if it isnt a search value. Otherwise perfom a search and then p
         foreach ($LeaderBoard as $key => $val) {
             $playerRows = array();
+            $numRows += 1;
             $playerRows[] = $val["Ranking"];
             $playerRows[] = '<a href="http://unturned-log.test/players.php?player='.$key.'">'.$val["Name"].'</a>';
             if ($type == "Kills") {
@@ -224,6 +227,25 @@ class Players extends DbConfig
         );
 
         echo json_encode($output);
+    }
+
+    public function array_search($array, $searchterm, $valuetype) {
+        $newarray = array();
+        foreach ($array as $key => $val) {
+            foreach ($valuetype as $value) {
+                if ($value == "Id") {
+                    if($array[$key] == intval($searchterm)) {
+                        $newarray += [$key => $array[$key]];
+                    }
+                }
+                else {
+                    if ($array[$key][$value] === $searchterm ) {
+                        $newarray += [$key => $array[$key]];
+                    }
+                }
+            }
+        }
+        return $newarray;
     }
 
 
@@ -500,6 +522,19 @@ class Players extends DbConfig
                 $PlayerRows[] = $Player['SteamName'];
                 $PlayerData = $PlayerRows;
             }
+        } else if ($information == "KDR") {
+            $KillsQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Player Kill'";
+            $Killsresult = mysqli_query($this->dbConnect, $KillsQuery);
+            $Kills = mysqli_num_rows($Killsresult);
+
+            $DeathsQuery = "SELECT * FROM Edbtvplays_UnturnedLog_Events WHERE PlayerId = ".$id." AND EventType = 'Death'";
+            $Deathsresult = mysqli_query($this->dbConnect, $DeathsQuery);
+            $Deaths= mysqli_num_rows($Deathsresult);
+
+            $KDR = $Kills/$Deaths;
+
+            return (round($KDR, 2));
+
         } else if ($information == "LAST_SERVER") {
             while ($Player = mysqli_fetch_assoc($result)) {
                 $PlayerRows = array();
@@ -512,6 +547,9 @@ class Players extends DbConfig
                 }
                 $PlayerData = $PlayerRows;
             }
+        } else if ($information == "KILLS_RANKING") {
+            $Ranking = $this->ranking("Kills");
+            return $Ranking[$id]["Ranking"];
         }
         return($PlayerData[0]);
     }
@@ -619,7 +657,7 @@ class Players extends DbConfig
 
         while ($rowData = mysqli_fetch_array($result)) {
             // For each return Check if Kill, If kill get date then add
-            $Construct[(date("Y-m-d", strtotime($rowData["EventTime"])))] = $Construct [(date("Y-m-d", strtotime($rowData["EventTime"])))] + 1;
+            $Construct[(date("Y-m-d", strtotime($rowData["EventTime"])))] = $Construct[(date("Y-m-d", strtotime($rowData["EventTime"])))] + 1;
         }
 
         $output = array(
@@ -786,22 +824,20 @@ class User extends Dbconfig {
     // TODO: Fix the Displaying of the Userlist.
     // Gets the list of users.
     public function getUserList(){
-        $sqlQuery = "SELECT * FROM user ";
 
+        $sqlQuery = "SELECT * FROM user WHERE id !='1'";
 
         if(!empty($_POST["order"])){
             $sqlQuery .= 'ORDER BY '.$_POST['order']['0']['column'].' '.$_POST['order']['0']['dir'].' ';
         } else {
             $sqlQuery .= 'ORDER BY id DESC ';
         }
-
         if($_POST["length"] != -1){
             $sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
         }
-
         $result = mysqli_query($this->dbConnect, $sqlQuery);
 
-        $sqlQuery1 = "SELECT * FROM user";
+        $sqlQuery1 = "SELECT * FROM user WHERE id !='".$_SESSION['adminUserid']."' ";
         $result1 = mysqli_query($this->dbConnect, $sqlQuery1);
         $numRows = mysqli_num_rows($result1);
 
@@ -825,7 +861,6 @@ class User extends Dbconfig {
             $userRows[] = '<button type="button" name="delete" id="'.$users["id"].'" class="btn btn-danger btn-xs delete" >Delete</button>';
             $userData[] = $userRows;
         }
-
         $output = array(
             "draw"				=>	intval($_POST["draw"]),
             "recordsTotal"  	=>  $numRows,
@@ -865,7 +900,7 @@ class User extends Dbconfig {
     public function addUser () {
         if($_POST["email"]) {
             $authtoken = $this->getAuthtoken($_POST['email']);
-            $insertQuery = "INSERT INTO user (first_name, last_name, email, password, type, status, authtoken) VALUES ('".$_POST["firstname"]."','".$_POST["lastname"]."','".$_POST["email"]."','".md5($_POST["password"])."','".$_POST['user_type']."', 'active', '".$authtoken."')";
+            $insertQuery = "INSERT INTO user (first_name, last_name, email, password, type, status, authtoken) VALUES ('".$this->dbConnect->real_escape_string($_POST["firstname"])."','".$this->dbConnect->real_escape_string($_POST["lastname"])."','".$this->dbConnect->real_escape_string($_POST["email"])."','".md5($_POST["password"])."','".$this->dbConnect->real_escape_string($_POST['user_type'])."', 'active', '".$authtoken."')";
             mysqli_query($this->dbConnect, $insertQuery);
         }
     }

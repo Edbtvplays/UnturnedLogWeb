@@ -15,8 +15,8 @@ CREATE TABLE `user` (
 
 
 
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `email`, `password`, `gender`, `mobile`, `designation`, `image`, `type`, `status`, `authtoken`) VALUES
-(1, 'Edward', 'Brook', 'ed@edbrook.site', '202cb962ac59075b964b07152d234b70', 'male', '123456789', 'Web Developer', '', 'administrator', 'active', ''),
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `email`, `password`,  `image`, `type`, `status`, `authtoken`) VALUES
+(1, 'Edward', 'Brook', 'ed@edbrook.site', '202cb962ac59075b964b07152d234b70', '', 'administrator', 'active', ''),
 
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);

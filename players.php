@@ -26,15 +26,16 @@ $ConnectsGraph = json_decode($encoded, true);
 
 $Connects = $ConnectsGraph["Return"];
 
+
 // Construct Array here instead of in Javascript due to outdated graph.
 $ConnectsArray = array(
-    array("y" => $Connects[date('Y-m-d', strtotime('-0 days'))], "label" => date('Y-m-d', strtotime('-0 days'))),
-    array("y" => $Connects[date('Y-m-d', strtotime('-1 days'))], "label" => date('Y-m-d', strtotime('-1 days'))),
-    array("y" => $Connects[date('Y-m-d', strtotime('-2 days'))], "label" => date('Y-m-d', strtotime('-2 days'))),
-    array("y" => $Connects[date('Y-m-d', strtotime('-3 days'))], "label" => date('Y-m-d', strtotime('-3 days'))),
-    array("y" => $Connects[date('Y-m-d', strtotime('-4 days'))], "label" => date('Y-m-d', strtotime('-4 days'))),
-    array("y" => $Connects[date('Y-m-d', strtotime('-5 days'))], "label" => date('Y-m-d', strtotime('-5 days'))),
-    array("y" => $Connects[date('Y-m-d', strtotime('-6 days'))], "label" => date('Y-m-d', strtotime('-6 days'))),
+    array("y" => 2, "label" => date('Y-m-d', strtotime('-0 days'))),
+    array("y" => 1, "label" => date('Y-m-d', strtotime('-1 days'))),
+    array("y" => 3, "label" => date('Y-m-d', strtotime('-2 days'))),
+    array("y" => 2, "label" => date('Y-m-d', strtotime('-3 days'))),
+    array("y" => 2, "label" => date('Y-m-d', strtotime('-4 days'))),
+    array("y" => 3, "label" => date('Y-m-d', strtotime('-5 days'))),
+    array("y" => 4, "label" => date('Y-m-d', strtotime('-6 days'))),
 );
 
 // Zombie Kills Graph
@@ -46,11 +47,11 @@ $ZommbieKills = $ZommbieKillsGraph["Return"];
 
 // Construct Array here instead of in Javascript due to outdated graph.
 $ZommbieKillsPoints = array(
-    array("y" => $ZommbieKills[date('Y-m-d', strtotime('-0 days'))], "label" => date('Y-m-d', strtotime('-0 days'))),
-    array("y" => $ZommbieKills[date('Y-m-d', strtotime('-1 days'))], "label" => date('Y-m-d', strtotime('-1 days'))),
-    array("y" => $ZommbieKills[date('Y-m-d', strtotime('-2 days'))], "label" => date('Y-m-d', strtotime('-2 days'))),
-    array("y" => $ZommbieKills[date('Y-m-d', strtotime('-3 days'))], "label" => date('Y-m-d', strtotime('-3 days'))),
-    array("y" => $ZommbieKills[date('Y-m-d', strtotime('-4 days'))], "label" => date('Y-m-d', strtotime('-4 days'))),
+    array("y" => 1, "label" => date('Y-m-d', strtotime('-0 days'))),
+    array("y" => 13, "label" => date('Y-m-d', strtotime('-1 days'))),
+    array("y" => 10, "label" => date('Y-m-d', strtotime('-2 days'))),
+    array("y" => 6, "label" => date('Y-m-d', strtotime('-3 days'))),
+    array("y" => 5, "label" => date('Y-m-d', strtotime('-4 days'))),
     array("y" => $ZommbieKills[date('Y-m-d', strtotime('-5 days'))], "label" => date('Y-m-d', strtotime('-5 days'))),
     array("y" => $ZommbieKills[date('Y-m-d', strtotime('-6 days'))], "label" => date('Y-m-d', strtotime('-6 days'))),
 );
@@ -94,13 +95,13 @@ include('include/header.php');
                 yValueFormatString: "#0.##",
                 showInLegend: true,
                 dataPoints: [
-                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -0 days')) ?>), y: <?php echo $Deaths[date('Y-m-d', strtotime('-0 days'))] ?> },
-                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -1 days')) ?>), y: <?php echo $Deaths[date('Y-m-d', strtotime('-1 days'))] ?> },
-                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -2 days')) ?>), y: <?php echo $Deaths[date('Y-m-d', strtotime('-2 days'))] ?> },
-                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -3 days')) ?>), y: <?php echo $Deaths[date('Y-m-d', strtotime('-3 days'))] ?> },
+                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -0 days')) ?>), y: 3 },
+                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -1 days')) ?>), y: 0 },
+                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -2 days')) ?>), y: 4 },
+                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -3 days')) ?>), y: 5 },
                     { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -4 days')) ?>), y: <?php echo $Deaths[date('Y-m-d', strtotime('-4 days'))] ?> },
                     { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -5 days')) ?>), y: <?php echo $Deaths[date('Y-m-d', strtotime('-5 days'))] ?> },
-                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -6 days')) ?>), y: <?php echo $Deaths[date('Y-m-d', strtotime('-6 days'))] ?> }
+                    { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -6 days')) ?>), y: 6 }
                 ]
             },
                 {
@@ -109,10 +110,10 @@ include('include/header.php');
                     yValueFormatString: "#0.##",
                     showInLegend: true,
                     dataPoints: [
-                        { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -0 days')) ?>), y: <?php echo $Kills[date('Y-m-d', strtotime('-0 days'))] ?> },
+                        { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -0 days')) ?>), y: 1},
                         { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -1 days')) ?>), y: <?php echo $Kills[date('Y-m-d', strtotime('-1 days'))] ?> },
-                        { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -2 days')) ?>), y:  <?php echo $Kills[date('Y-m-d', strtotime('-2 days'))] ?> },
-                        { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -3 days')) ?>), y: <?php echo $Kills[date('Y-m-d', strtotime('-3 days'))] ?> },
+                        { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -2 days')) ?>), y: 2},
+                        { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -3 days')) ?>), y: 1},
                         { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -4 days')) ?>), y: <?php echo $Kills[date('Y-m-d', strtotime('-4 days'))] ?> },
                         { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -5 days')) ?>), y: <?php echo $Kills[date('Y-m-d', strtotime('-5 days'))] ?> },
                         { x: new Date(<?php echo date('Y,m,d', strtotime('-1 months -6 days')) ?>), y: <?php echo $Kills[date('Y-m-d', strtotime('-6 days'))] ?> }
@@ -121,6 +122,7 @@ include('include/header.php');
         });
         chart.render();
 
+        console.log()
         function toggleDataSeries(e){
             if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
                 e.dataSeries.visible = false;
@@ -426,8 +428,18 @@ include('include/header.php');
         <div class="panel panel-default">
             <div class="panel-body bk-success text-light">
                 <div class="stat-panel text-center">
-                    <div class="stat-panel-number h1 "><?php echo $player->GetStatistic("PLAYER_HEADSHOTS"); ?></div>
-                    <div class="stat-panel-title text-uppercase">Player Headshots</div>
+                    <div class="stat-panel-number h1 "><?php echo $player->GetInformation("KDR"); ?></div>
+                    <div class="stat-panel-title text-uppercase">Player KDR</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-body bk-success text-light">
+                <div class="stat-panel text-center">
+                    <div class="stat-panel-number h1 "><?php echo $player->GetInformation("KILLS_RANKING"); ?></div>
+                    <div class="stat-panel-title text-uppercase">Kills Ranking</div>
                 </div>
             </div>
         </div>

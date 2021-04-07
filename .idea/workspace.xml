@@ -2,36 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01cb7502-63db-4fae-847d-b4e754c71f5a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/leaderboard.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_list.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/account.php" beforeDir="false" afterPath="$PROJECT_DIR$/account.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/action.php" beforeDir="false" afterPath="$PROJECT_DIR$/action.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/action.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/change_password.php" beforeDir="false" afterPath="$PROJECT_DIR$/change_password.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/dataTables.bootstrap.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/admindashboard.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/include/config.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/include/container.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/include/footer.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/include/header.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/index.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/js/dataTables.bootstrap.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/js/jquery.dataTables.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/js/users.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/logout.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/menus.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/profile.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/user_list.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/class/General.php" beforeDir="false" afterPath="$PROJECT_DIR$/class/General.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edit_account.php" beforeDir="false" afterPath="$PROJECT_DIR$/edit_account.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/container.php" beforeDir="false" afterPath="$PROJECT_DIR$/include/container.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/dataTables.bootstrap.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logout.php" beforeDir="false" afterPath="$PROJECT_DIR$/logout.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/include/menu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/leaderboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/leaderboard.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/players.php" beforeDir="false" afterPath="$PROJECT_DIR$/players.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +46,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="//wsl$/Ubuntu/var/www/panel" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="discord-project" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -132,7 +108,15 @@
       <workItem from="1616174769255" duration="14063000" />
       <workItem from="1616247930300" duration="31893000" />
       <workItem from="1616333143707" duration="19723000" />
-      <workItem from="1616370675929" duration="7411000" />
+      <workItem from="1616370675929" duration="7938000" />
+      <workItem from="1616409363861" duration="3245000" />
+      <workItem from="1616533288656" duration="3665000" />
+      <workItem from="1616609083632" duration="15887000" />
+      <workItem from="1616694975099" duration="4221000" />
+      <workItem from="1617101884900" duration="6158000" />
+      <workItem from="1617563497253" duration="370000" />
+      <workItem from="1617636028158" duration="11329000" />
+      <workItem from="1617738270944" duration="4474000" />
     </task>
     <servers />
   </component>
