@@ -174,7 +174,6 @@ class Players extends DbConfig
         // Need to sort the Associative Array by Kills.
         $Multisort = new multisort();
 
-
         if ($type == "Kills") {
             $LeaderBoard = $Multisort->run($LeaderBoard, "Kills", "desc");
         } else if ($type == "Deaths") {
@@ -229,7 +228,7 @@ class Players extends DbConfig
         echo json_encode($output);
     }
 
-    public function array_search($array, $searchterm, $valuetype) {
+    private function array_search($array, $searchterm, $valuetype) {
         $newarray = array();
         foreach ($array as $key => $val) {
             foreach ($valuetype as $value) {
